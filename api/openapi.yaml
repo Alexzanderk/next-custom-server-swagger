@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  version: 0.0.1
+  title: PROJECT NAME
+  description: Service for shippers to create templates and display information about the delivery status, as well as by e-mail and sms
+  license:
+    name: UNLICENSED
+
+security:
+  - bearer: []
+
+servers:
+  - url: /api
+
+paths:
+  /:
+    x-exegesis-controller: Home
+    get:
+      summary: Root path showing app name and version number
+      operationId: index
+      security: [] #exclude from security check
+      tags:
+        - Home
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  info_payload:
+                    description: Basic app info
+                    type: object
+    head:
+      operationId: healthCheck
+      responses:
+        default:
+          description: Health check passed.
+      security: [] #exclude from security check
+      summary: Health check
+      tags: [HealthCheck]
+
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      required:
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        errors:
+          type: object
